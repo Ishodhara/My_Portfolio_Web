@@ -14,44 +14,6 @@
     --font-accent: 'Roboto', sans-serif;
 }
 
-/* ===== NEW Keyframe Animations ===== */
-@keyframes slideInUp {
-    from {
-        opacity: 0;
-        transform: translateY(40px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-
-@keyframes zoomIn {
-    from {
-        opacity: 0;
-        transform: scale(0.9);
-    }
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
-}
-
-/* --- NEW --- Added a subtle bounce/wiggle */
-@keyframes skillHover {
-    0% { transform: scale(1.15) rotate(0deg); }
-    33% { transform: scale(1.15) rotate(-5deg); }
-    66% { transform: scale(1.15) rotate(5deg); }
-    100% { transform: scale(1.15) rotate(0deg); }
-}
-/* --- End of New Keyframes --- */
-
-
 * {
     margin: 0;
     padding: 0;
@@ -70,6 +32,7 @@ body {
     overflow-x: hidden;
 }
 
+/* Page-wide green line at the bottom */
 body::after {
     content: '';
     position: fixed;
@@ -86,28 +49,18 @@ section {
     min-height: 80vh;
 }
 
+/* UPDATED SECTION TITLE to match Assignments title */
 .section-title {
     font-family: var(--font-heading);
     font-size: 2.5rem;
     font-weight: 700;
     text-align: center;
-    color: var(--light-green);
-    margin-top: 80px;
+    color: var(--light-green); /* Added color */
+    margin-top: 80px; /* Added margin-top */
     margin-bottom: 50px;
-    position: relative;
+    position: relative; /* Added position */
     letter-spacing: 2px;
-
-    /* --- NEW PAGE-LOAD ANIMATION --- */
-    animation: slideInUp 0.7s ease-out;
-    animation-fill-mode: both;
 }
-
-/* --- NEW --- Staggering the title animations as you go down */
-#about .section-title { animation-delay: 1s; }
-#projects .section-title { animation-delay: 1.8s; }
-#gallery .section-title { animation-delay: 2.5s; }
-/* Contact section titles are handled individually below */
-
 
 .section-title::before,
 .section-title::after {
@@ -127,6 +80,7 @@ section {
 .section-title::after {
     right: 25%;
 }
+/* END OF SECTION TITLE UPDATE */
 
 
 .section-subtitle {
@@ -137,16 +91,7 @@ section {
     color: var(--text-medium);
     margin-bottom: 50px;
     margin-top: -30px;
-
-    /* --- NEW PAGE-LOAD ANIMATION --- */
-    animation: slideInUp 0.7s ease-out;
-    animation-fill-mode: both;
 }
-
-/* --- NEW --- Staggering the subtitle animations */
-#projects .section-subtitle { animation-delay: 2s; }
-#gallery .section-subtitle { animation-delay: 2.7s; }
-
 
 .btn {
     display: inline-block;
@@ -161,14 +106,13 @@ section {
     cursor: pointer;
     text-decoration: none;
     text-align: center;
-    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.3s ease;
     box-shadow: 0 4px 15px rgba(57, 255, 20, 0.4);
 }
 
 .btn:hover {
     background-color: #2bff00;
-    transform: translateY(-5px) scale(1.05); /* --- ENHANCED HOVER --- */
-    box-shadow: 0 8px 25px rgba(57, 255, 20, 0.7);
+    transform: translateY(-3px);
 }
 
 /* ===== Header / Navbar ===== */
@@ -183,8 +127,6 @@ section {
     left: 0;
     width: 100%;
     z-index: 1000;
-    /* --- NEW --- Add animation to navbar itself */
-    animation: fadeIn 1s ease-out;
 }
 
 .navbar::after {
@@ -234,15 +176,29 @@ section {
     font-weight: 600;
     letter-spacing: 1px;
     font-family: var(--font-body);
-    position: relative;
-    padding-bottom: 5px;
-    transition: color 0.3s ease; /* --- NEW --- */
+    position: relative; /* ADDED: For underline effect */
+    padding-bottom: 5px; /* ADDED: Space for underline */
 }
 
-/* --- ENHANCED HOVER --- */
-.nav-links ul li a:hover {
-    color: var(--light-green);
+/* --- NEW: Navbar link underline animation --- */
+.nav-links ul li a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: var(--light-green);
+    transform: scaleX(0); /* Start hidden */
+    transform-origin: left;
+    transition: transform 0.3s ease-out;
 }
+
+.nav-links ul li a:hover::after {
+    transform: scaleX(1); /* Slide in */
+}
+/* --- END: New Animation --- */
+
 
 .nav-links ul li:last-child::after {
     content: '';
@@ -255,26 +211,7 @@ section {
     background-color: var(--light-green);
 }
 
-.nav-links ul li a::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 2px;
-    background-color: var(--light-green);
-    transform: scaleX(0);
-    transform-origin: right;
-    transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1); /* --- ENHANCED --- */
-}
-
-.nav-links ul li a:hover::after {
-    transform: scaleX(1);
-    transform-origin: left;
-}
-
-
-/* ===== 1. Home Section (On-Load Animations) ===== */
+/* ===== 1. Home Section ===== */
 .hero-section {
     display: flex;
     justify-content: space-between;
@@ -282,11 +219,14 @@ section {
     min-height: 100vh;
     padding-top: 100px;
     background: linear-gradient(to right, #333333, #1a1a1a);
+    perspective: 1500px; /* For 3D effect */
 }
 
 .hero-content {
     flex: 1;
     max-width: 55%;
+    transform-style: preserve-3d; /* For 3D children */
+    transition: transform 0.4s ease-out; /* For hover */
 }
 
 .hi-text {
@@ -294,8 +234,7 @@ section {
     font-size: 30px;
     font-weight: bold;
     margin-bottom: 10px;
-    animation: fadeIn 0.6s ease-out 0.2s;
-    animation-fill-mode: both;
+    transition: transform 0.4s ease-out; /* For hover */
 }
 
 .ex-mark {
@@ -308,8 +247,7 @@ section {
     font-weight: 900;
     line-height: 1.1;
     margin-bottom: 20px;
-    animation: slideInUp 0.7s ease-out 0.3s;
-    animation-fill-mode: both;
+    transition: transform 0.4s ease-out; /* For hover */
 }
 
 .role-text {
@@ -322,8 +260,7 @@ section {
     margin-bottom: 30px;
     font-weight: 400;
     border-bottom: 2px solid var(--light-green);
-    animation: slideInUp 0.7s ease-out 0.5s;
-    animation-fill-mode: both;
+    transition: transform 0.4s ease-out; /* For hover */
 }
 
 .slogan {
@@ -332,8 +269,7 @@ section {
     font-weight: 700;
     margin-bottom: 40px;
     letter-spacing: 1px;
-    animation: fadeIn 0.7s ease-out 0.7s;
-    animation-fill-mode: both;
+    transition: transform 0.4s ease-out; /* For hover */
 }
 
 .slogan .char-green {
@@ -342,8 +278,7 @@ section {
 
 .download-cv-btn {
     box-shadow: 0 0 15px rgba(57, 255, 20, 0.7);
-    animation: slideInUp 0.7s ease-out 0.9s;
-    animation-fill-mode: both;
+    transition: transform 0.4s ease-out; /* For hover */
 }
 
 .hero-image-container {
@@ -354,8 +289,8 @@ section {
     align-items: center;
     position: relative;
     padding: 20px;
-    animation: zoomIn 0.8s ease-out 0.4s;
-    animation-fill-mode: both;
+    transform-style: preserve-3d; /* For 3D children */
+    transition: transform 0.4s ease-out; /* For hover */
 }
 
 .hero-image-container::before {
@@ -377,9 +312,39 @@ section {
     object-fit: cover;
     position: relative;
     z-index: 2;
+    transition: transform 0.4s ease-out; /* For hover */
 }
 
-/* ===== 2. About Me Section (Page-Load Animations) ===== */
+/* --- 3D Parallax Hover Effect --- */
+.hero-content:hover {
+    transform: rotateY(-8deg) rotateX(1deg);
+}
+.hero-content:hover .hi-text {
+    transform: translateZ(10px);
+}
+.hero-content:hover h1 {
+    transform: translateZ(30px);
+}
+.hero-content:hover .role-text {
+    transform: translateZ(20px);
+}
+.hero-content:hover .slogan {
+    transform: translateZ(25px);
+}
+.hero-content:hover .download-cv-btn {
+    transform: translateZ(40px);
+}
+
+.hero-image-container:hover {
+    transform: rotateY(8deg) rotateX(1deg);
+}
+.hero-image-container:hover .hero-img {
+    transform: translateZ(30px);
+}
+/* --- END: 3D Effect --- */
+
+
+/* ===== 2. About Me Section (Latest Mockup) ===== */
 .about-section-new-mockup {
     background-color: var(--dark-bg);
     border-top: 2px solid var(--light-green);
@@ -405,11 +370,15 @@ section {
     box-shadow: 0 0 25px rgba(57, 255, 20, 0.6);
     overflow: hidden;
     margin: 0 auto 20px auto;
-
-    /* --- NEW PAGE-LOAD ANIMATION --- */
-    animation: zoomIn 0.8s ease-out 1.2s;
-    animation-fill-mode: both;
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* ADDED */
 }
+
+/* --- NEW: About Me Hover --- */
+.about-profile-pic-new-mockup:hover {
+    transform: scale(1.03);
+    box-shadow: 0 0 35px rgba(57, 255, 20, 0.8);
+}
+/* --- END: New Animation --- */
 
 .about-profile-pic-new-mockup img {
     width: 100%;
@@ -423,20 +392,12 @@ section {
     font-weight: 700;
     color: var(--text-light);
     margin-bottom: 5px;
-
-    /* --- NEW PAGE-LOAD ANIMATION --- */
-    animation: slideInUp 0.7s ease-out 1.4s;
-    animation-fill-mode: both;
 }
 
 .subtitle-about {
     font-family: var(--font-accent);
     font-size: 1rem;
     color: var(--text-medium);
-
-    /* --- NEW PAGE-LOAD ANIMATION --- */
-    animation: slideInUp 0.7s ease-out 1.5s;
-    animation-fill-mode: both;
 }
 
 .about-content-section-new-mockup {
@@ -453,10 +414,6 @@ section {
     margin-top: 40px;
     margin-bottom: 20px;
     text-align: left;
-
-    /* --- NEW PAGE-LOAD ANIMATION --- */
-    animation: slideInUp 0.7s ease-out 1.6s;
-    animation-fill-mode: both;
 }
 
 .about-content-section-new-mockup p {
@@ -470,11 +427,16 @@ section {
     margin-bottom: 25px;
     box-shadow: 0 0 15px rgba(57, 255, 20, 0.2);
     text-align: justify;
-
-    /* --- NEW PAGE-LOAD ANIMATION --- */
-    animation: slideInUp 0.7s ease-out 1.7s;
-    animation-fill-mode: both;
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* ADDED */
 }
+
+/* --- NEW: About Me Textbox Hover --- */
+.about-content-section-new-mockup p:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0 20px rgba(57, 255, 20, 0.4);
+}
+/* --- END: New Animation --- */
+
 
 /* --- Education Section --- */
 .education-grid-new-mockup {
@@ -493,23 +455,12 @@ section {
     border-radius: 8px;
     padding: 15px 20px;
     box-shadow: 0 0 10px rgba(57, 255, 20, 0.2);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-
-    /* --- NEW PAGE-LOAD ANIMATION --- */
-    opacity: 0; /* Start hidden */
-    animation: slideInUp 0.7s ease-out;
-    animation-fill-mode: both;
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* MODIFIED */
 }
-
-/* --- NEW --- Staggering the education items */
-.education-item-new-mockup:nth-child(1) { animation-delay: 1.8s; }
-.education-item-new-mockup:nth-child(2) { animation-delay: 1.9s; }
-.education-item-new-mockup:nth-child(3) { animation-delay: 2.0s; }
-
 
 .education-item-new-mockup:hover {
     transform: translateY(-5px);
-    box-shadow: 0 5px 15px rgba(57, 255, 20, 0.4);
+    box-shadow: 0 0 20px rgba(57, 255, 20, 0.4); /* ADDED */
 }
 
 .edu-icon-circle {
@@ -580,39 +531,23 @@ section {
     color: var(--light-green);
     font-family: var(--font-heading);
     box-shadow: 0 0 15px rgba(57, 255, 20, 0.4);
-    transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+    transition: transform 0.3s ease, background-color 0.3s ease;
     margin: 0 auto;
-
-    /* --- NEW PAGE-LOAD ANIMATION --- */
-    opacity: 0; /* Start hidden */
-    animation: zoomIn 0.6s ease-out;
-    animation-fill-mode: both;
 }
-
-/* --- NEW --- Staggering the skills */
-.skill-circle-new-mockup:nth-child(1) { animation-delay: 2.1s; }
-.skill-circle-new-mockup:nth-child(2) { animation-delay: 2.15s; }
-.skill-circle-new-mockup:nth-child(3) { animation-delay: 2.2s; }
-.skill-circle-new-mockup:nth-child(4) { animation-delay: 2.25s; }
-.skill-circle-new-mockup:nth-child(5) { animation-delay: 2.3s; }
-.skill-circle-new-mockup:nth-child(6) { animation-delay: 2.35s; }
-.skill-circle-new-mockup:nth-child(7) { animation-delay: 2.4s; }
-
 
 .skill-circle-new-mockup.skill-text {
     font-size: 1.5rem;
 }
 
 .skill-circle-new-mockup:hover {
+    transform: scale(1.15);
     background-color: var(--light-green);
     color: var(--text-dark);
     box-shadow: 0 0 25px rgba(57, 255, 20, 0.8);
-    /* --- SUPERB HOVER --- */
-    animation: skillHover 0.4s ease-in-out;
 }
 
 
-/* ===== 3. Projects Section (Page-Load Animations) ===== */
+/* ===== 3. Projects Section (Updated Styles for Assignments) ===== */
 .projects-section-old {
     background: var(--dark-bg);
 }
@@ -629,24 +564,16 @@ section {
     border-radius: 8px;
     overflow: hidden;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-    transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.4s ease; /* --- ENHANCED TRANSITION --- */
+    transition: transform 0.3s ease;
     border: 2px solid var(--light-green);
-
-    /* --- NEW PAGE-LOAD ANIMATION --- */
-    opacity: 0; /* Start hidden */
-    animation: slideInUp 0.7s ease-out;
-    animation-fill-mode: both;
 }
 
-/* --- NEW --- Staggering the project cards */
-.project-grid-old .project-card-old:nth-child(1) { animation-delay: 2.2s; }
-.project-grid-old .project-card-old:nth-child(2) { animation-delay: 2.3s; }
-.project-grid-old .project-card-old:nth-child(3) { animation-delay: 2.4s; }
-
-
 .project-card-old:hover {
-    transform: translateY(-10px) scale(1.03); /* --- ENHANCED HOVER --- */
-    box-shadow: 0 10px 30px rgba(57, 255, 20, 0.5);
+    transform: translateY(-8px);
+}
+
+.project-image-old {
+    overflow: hidden; /* ADDED: To contain image zoom */
 }
 
 .project-image-old img {
@@ -655,7 +582,20 @@ section {
     object-fit: cover;
     display: block;
     border-bottom: 2px solid var(--light-green);
+    transition: transform 0.3s ease; /* ADDED */
 }
+
+/* --- NEW: Project Card Hover --- */
+.project-card-old:hover .project-image-old img {
+    transform: scale(1.1);
+}
+
+.project-card-old:hover .project-content-old h4 {
+    color: #f0f0f0; /* Brighter white */
+    text-shadow: 0 0 5px var(--light-green);
+}
+/* --- END: New Animation --- */
+
 
 .project-content-old {
     padding: 25px;
@@ -666,6 +606,7 @@ section {
     font-size: 1.5rem;
     color: var(--light-green);
     margin-bottom: 15px;
+    transition: color 0.3s ease, text-shadow 0.3s ease; /* ADDED */
 }
 
 .project-content-old p {
@@ -681,7 +622,7 @@ section {
 
 /* --- ASSIGNMENT CARD STYLES (Stacked Look) --- */
 .project-grid-old.assignments-grid {
-    gap: 40px;
+    gap: 40px; /* Increased gap for assignments grid */
 }
 
 .project-assignment-card {
@@ -690,22 +631,8 @@ section {
     justify-content: center;
     align-items: center;
     min-height: 400px;
-    padding: 0;
-    cursor: pointer;
-
-    /* --- NEW PAGE-LOAD ANIMATION --- */
-    opacity: 0; /* Start hidden */
-    animation: zoomIn 0.7s ease-out;
-    animation-fill-mode: both;
+    padding: 0; /* Removed padding */
 }
-
-/* --- NEW --- Staggering the assignment cards */
-.assignments-grid .project-assignment-card:nth-child(1) { animation-delay: 2.5s; }
-.assignments-grid .project-assignment-card:nth-child(2) { animation-delay: 2.6s; }
-.assignments-grid .project-assignment-card:nth-child(3) { animation-delay: 2.7s; }
-.assignments-grid .project-assignment-card:nth-child(4) { animation-delay: 2.8s; }
-.assignments-grid .project-assignment-card:nth-child(5) { animation-delay: 2.9s; }
-
 
 .assignment-background-stack {
     position: relative;
@@ -722,7 +649,7 @@ section {
     background-color: var(--card-bg);
     border-radius: 4px;
     box-shadow: 0 5px 20px rgba(57, 255, 20, 0.3);
-    transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1); /* --- ENHANCED --- */
+    transition: transform 0.4s ease;
     overflow: hidden;
 }
 
@@ -749,18 +676,6 @@ section {
     flex-direction: column;
 }
 
-/* --- SUPERB HOVER --- More dramatic separation */
-.project-assignment-card:hover .stack-card-back {
-    transform: translate(50px, 30px) rotate(-15deg);
-}
-.project-assignment-card:hover .stack-card-middle {
-    transform: translate(25px, 15px) rotate(-8deg);
-}
-.project-assignment-card:hover .stack-card-front {
-    transform: translateY(-15px) rotate(2deg);
-}
-
-
 .assignment-header {
     display: flex;
     align-items: center;
@@ -783,16 +698,16 @@ section {
 }
 
 .assignment-details {
-    flex-grow: 1;
+    flex-grow: 1; /* This tells the content block to fill all available space */
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: space-between; /* This pushes the content apart */
 }
 
 .assignment-details ul {
     list-style: none;
     padding-left: 0;
-    margin-bottom: 20px;
+    margin-bottom: 20px; /* Add some space above the button */
 }
 
 .assignment-details li {
@@ -827,17 +742,36 @@ section {
     border-radius: 50%;
     font-size: 1.8rem;
     margin: 0 auto;
-    align-self: center;
-    flex-shrink: 0;
-    transition: background-color 0.3s ease, transform 0.3s ease;
+    align-self: center; /* Ensures it stays centered */
+    flex-shrink: 0; /* Prevents the button from shrinking */
+    transition: background-color 0.3s ease;
 }
 
 .github-link:hover {
     background-color: #2bff00;
-    transform: scale(1.1) rotate(10deg); /* --- ENHANCED HOVER --- */
 }
 
-/* ===== 4. Gallery Section (Page-Load Animations) ===== */
+/* --- Fanning Stack Cards Animation --- */
+.assignment-background-stack:hover .stack-card-back {
+    transform: translate(-90px, 0) rotate(-10deg);
+    box-shadow: 0 10px 30px rgba(57, 255, 20, 0.4);
+    opacity: 1;
+}
+
+.assignment-background-stack:hover .stack-card-middle {
+    transform: translate(0, -5px) rotate(0deg); /* Lift it slightly */
+    box-shadow: 0 10px 30px rgba(57, 255, 20, 0.5);
+    opacity: 1;
+}
+
+.assignment-background-stack:hover .stack-card-front {
+    transform: translate(90px, 0) rotate(10deg);
+    box-shadow: 0 10px 30px rgba(57, 255, 20, 0.4);
+}
+/* --- END: Fanning Animation --- */
+
+
+/* ===== 4. Gallery Section ===== */
 .gallery-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -845,29 +779,10 @@ section {
 }
 
 .gallery-item {
+
     border-radius: 8px;
     overflow: hidden;
     box-shadow: 0 0 10px rgb(54, 255, 19);
-    transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.4s ease; /* --- ENHANCED --- */
-
-    /* --- NEW PAGE-LOAD ANIMATION --- */
-    opacity: 0; /* Start hidden */
-    animation: zoomIn 0.7s ease-out;
-    animation-fill-mode: both;
-}
-
-/* --- NEW --- Staggering the gallery items */
-.gallery-item:nth-child(1) { animation-delay: 2.8s; }
-.gallery-item:nth-child(2) { animation-delay: 2.9s; }
-.gallery-item:nth-child(3) { animation-delay: 3.0s; }
-.gallery-item:nth-child(4) { animation-delay: 2.85s; }
-.gallery-item:nth-child(5) { animation-delay: 2.95s; }
-.gallery-item:nth-child(6) { animation-delay: 3.05s; }
-
-
-.gallery-item:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 30px rgba(57, 255, 20, 0.8);
 }
 
 .gallery-item img {
@@ -875,18 +790,19 @@ section {
     height: 500px;
     object-fit: cover;
     border-radius: 0;
-    transition: transform 0.4s ease, opacity 0.4s, filter 0.4s ease; /* --- ENHANCED --- */
+    transition: transform 0.3s ease, opacity 0.3s ease, filter 0.3s ease; /* MODIFIED */
     cursor: pointer;
+    filter: brightness(1); /* ADDED */
 }
 
 .gallery-item img:hover {
-    transform: scale(1.15); /* --- ENHANCED HOVER --- */
+    transform: scale(1.1);
     opacity: 0.9;
-    filter: brightness(1.1); /* --- NEW HOVER EFFECT --- */
+    filter: brightness(1.1); /* ADDED */
 }
 
 
-/* ===== 5. Footer / Contact Section (Page-Load Animations) ===== */
+/* ===== 5. Footer / Contact Section (Latest Mockup) ===== */
 .contact-footer-new {
     background: var(--dark-bg);
     padding: 80px 8% 40px 8%;
@@ -899,10 +815,6 @@ section {
     font-size: 1.1rem;
     color: var(--light-green);
     margin-bottom: 10px;
-
-    /* --- NEW PAGE-LOAD ANIMATION --- */
-    animation: slideInUp 0.7s ease-out 3.1s;
-    animation-fill-mode: both;
 }
 
 .contact-heading-new {
@@ -912,10 +824,6 @@ section {
     text-align: center;
     color: var(--text-light);
     line-height: 1.1;
-
-    /* --- NEW PAGE-LOAD ANIMATION --- */
-    animation: slideInUp 0.7s ease-out 3.2s;
-    animation-fill-mode: both;
 }
 
 .contact-subheading-new {
@@ -924,10 +832,6 @@ section {
     text-align: center;
     color: var(--light-green);
     margin-bottom: 40px;
-
-    /* --- NEW PAGE-LOAD ANIMATION --- */
-    animation: slideInUp 0.7s ease-out 3.3s;
-    animation-fill-mode: both;
 }
 
 .contact-services-title {
@@ -956,19 +860,14 @@ section {
     justify-content: center;
     padding: 20px 10px;
     text-align: center;
-
-    /* --- NEW PAGE-LOAD ANIMATION --- */
-    opacity: 0; /* Start hidden */
-    animation: zoomIn 0.7s ease-out;
-    animation-fill-mode: both;
+    transition: transform 0.3s ease; /* ADDED */
 }
 
-/* --- NEW --- Staggering the service cards */
-.service-card-new:nth-child(1) { animation-delay: 3.4s; }
-.service-card-new:nth-child(2) { animation-delay: 3.5s; }
-.service-card-new:nth-child(3) { animation-delay: 3.6s; }
-.service-card-new:nth-child(4) { animation-delay: 3.7s; }
-
+/* --- NEW: Service Card Hover --- */
+.service-card-new:hover {
+    transform: translateY(-10px);
+}
+/* --- END: New Animation --- */
 
 .service-icon-circle-new {
     width: 120px;
@@ -982,14 +881,14 @@ section {
     font-size: 3rem;
     color: var(--light-green);
     margin-bottom: 15px;
-    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1); /* --- ENHANCED --- */
+    transition: all 0.3s ease;
     box-shadow: 0 0 15px rgba(57, 255, 20, 0.5);
 }
 
 .service-card-new:hover .service-icon-circle-new {
     background-color: var(--light-green);
     color: var(--text-dark);
-    transform: scale(1.05) rotate(15deg); /* --- SUPERB HOVER --- */
+    transform: scale(1.05);
 }
 
 .service-text-new {
@@ -1004,10 +903,6 @@ section {
     max-width: 600px;
     margin: 0 auto 50px auto;
     text-align: left;
-
-    /* --- NEW PAGE-LOAD ANIMATION --- */
-    animation: slideInUp 0.7s ease-out 3.8s;
-    animation-fill-mode: both;
 }
 
 .contact-form-new label {
@@ -1030,13 +925,12 @@ section {
     color: var(--text-light);
     font-family: var(--font-body);
     font-size: 1rem;
-    transition: box-shadow 0.3s ease, outline 0.3s ease;
 }
 
 .contact-form-new input:focus,
 .contact-form-new textarea:focus {
     outline: 1px solid var(--light-green);
-    box-shadow: 0 0 15px rgba(57, 255, 20, 0.7);
+    box-shadow: 0 0 10px rgba(57, 255, 20, 0.3);
 }
 
 .send-btn-new {
@@ -1047,6 +941,13 @@ section {
     box-shadow: 0 0 20px rgba(57, 255, 20, 0.6);
     border-radius: 0;
 }
+
+/* --- NEW: Send Button Hover --- */
+.send-btn-new:hover {
+    animation: pulse-glow 1.5s infinite;
+}
+/* --- END: New Animation --- */
+
 
 /* Social Media */
 .contact-social-connect-text {
@@ -1078,24 +979,12 @@ section {
     transition: all 0.3s ease;
     text-decoration: none;
     box-shadow: 0 0 10px rgba(57, 255, 20, 0.4);
-
-    /* --- NEW PAGE-LOAD ANIMATION --- */
-    opacity: 0; /* Start hidden */
-    animation: zoomIn 0.6s ease-out;
-    animation-fill-mode: both;
 }
-
-/* --- NEW --- Staggering the social icons */
-.social-circle-new:nth-child(1) { animation-delay: 3.9s; }
-.social-circle-new:nth-child(2) { animation-delay: 4.0s; }
-.social-circle-new:nth-child(3) { animation-delay: 4.1s; }
-.social-circle-new:nth-child(4) { animation-delay: 4.2s; }
-
 
 .social-circle-new:hover {
     background-color: var(--light-green);
     color: var(--text-dark);
-    transform: scale(1.1) rotate(10deg); /* --- ENHANCED HOVER --- */
+    transform: scale(1.1);
 }
 
 /* Footer Links and Bottom */
@@ -1134,12 +1023,11 @@ section {
     color: var(--text-medium);
     text-decoration: none;
     font-size: 0.95rem;
-    transition: color 0.3s ease, padding-left 0.3s ease; /* --- ENHANCED --- */
+    transition: color 0.3s ease;
 }
 
 .footer-links-col-new a:hover {
     color: var(--light-green);
-    padding-left: 5px; /* --- NEW HOVER EFFECT --- */
 }
 
 .footer-bottom-new {
@@ -1153,6 +1041,99 @@ section {
 
 .footer-bottom-new p {
     font-family: var(--font-accent);
+}
+
+/* ======================================
+===== HOME PAGE ANIMATIONS (ENTRY & LOOP) =====
+======================================
+*/
+
+/* --- Keyframes --- */
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeInRight {
+    from { opacity: 0; transform: translateX(50px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+@keyframes typing {
+    from { width: 0; }
+    to { width: 100%; }
+}
+@keyframes blink-caret {
+    from, to { border-right-color: transparent; }
+    50% { border-right-color: var(--light-green); }
+}
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
+}
+@keyframes pulse-border {
+    0%, 100% { box-shadow: 0 0 15px rgba(57, 255, 20, 0.5); }
+    50% { box-shadow: 0 0 30px rgba(57, 255, 20, 0.9); }
+}
+@keyframes pulse-glow {
+    0%, 100% { box-shadow: 0 0 15px rgba(57, 255, 20, 0.7); }
+    50% { box-shadow: 0 0 25px rgba(57, 255, 20, 1); }
+}
+@keyframes pulse-green-text {
+    0%, 100% { color: var(--light-green); text-shadow: 0 0 5px rgba(57, 255, 20, 0.5); }
+    50% { color: #afffab; text-shadow: 0 0 10px rgba(57, 255, 20, 0.8); }
+}
+
+/* --- Applying Entry Animations --- */
+.hero-content .hi-text,
+.hero-content h1,
+.hero-content .slogan {
+    animation: fadeInUp 1s ease-out forwards;
+    opacity: 0;
+}
+.hero-content .hi-text { animation-delay: 0.2s; }
+.hero-content h1 { animation-delay: 0.4s; }
+.hero-content .slogan { animation-delay: 2.8s; }
+.hero-image-container {
+    animation: fadeInRight 1s ease-out 0.5s forwards;
+    opacity: 0;
+}
+.role-text {
+    overflow: hidden;
+    white-space: nowrap;
+    border-right: .15em solid var(--light-green);
+    width: 0;
+    animation:
+            typing 2s steps(30, end) 0.6s forwards,
+            blink-caret .75s step-end infinite 2.7s;
+}
+
+/* --- Applying Infinite/Looping Animations (Post-Entry) --- */
+.slogan .char-green {
+    animation: pulse-green-text 2s infinite;
+    animation-delay: 3s;
+}
+.slogan .char-green:nth-of-type(2) { animation-delay: 3.1s; }
+.slogan .char-green:nth-of-type(3) { animation-delay: 3.2s; }
+.slogan .char-green:nth-of-type(4) { animation-delay: 3.3s; }
+.slogan .char-green:nth-of-type(5) { animation-delay: 3.4s; }
+.slogan .char-green:nth-of-type(6) { animation-delay: 3.5s; }
+.slogan .char-green:nth-of-type(7) { animation-delay: 3.6s; }
+.slogan .char-green:nth-of-type(8) { animation-delay: 3.7s; }
+.slogan .char-green:nth-of-type(9) { animation-delay: 3.8s; }
+.slogan .char-green:nth-of-type(10) { animation-delay: 3.9s; }
+.slogan .char-green:nth-of-type(11) { animation-delay: 4.0s; }
+.download-cv-btn {
+    opacity: 0;
+    animation:
+            fadeInUp 1s ease-out 3.0s forwards,
+            pulse-glow 2.5s infinite 4.0s;
+}
+.hero-img {
+    animation: float 6s ease-in-out infinite;
+    animation-delay: 1.5s;
+}
+.hero-image-container::before {
+    animation: pulse-border 2s infinite;
+    animation-delay: 1.5s;
 }
 
 
@@ -1233,6 +1214,12 @@ section {
         flex-basis: 100%;
         min-width: unset;
         text-align: center;
+    }
+
+    /* Disable 3D tilt on mobile */
+    .hero-content:hover,
+    .hero-image-container:hover {
+        transform: none;
     }
 }
 
